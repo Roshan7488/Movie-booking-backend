@@ -1,7 +1,11 @@
 const movieController=require('../controllers/movie.controller');
+const MovieMiddlewares =require('../middlewares/movie.middlewares');
 
 const routes=(app)=>{
-  app.post('/mba/api/v1/movies',movieController.createMovie);
+  app.post('/mba/api/v1/movies',
+    MovieMiddlewares.validateMovieCreateRequest,
+    movieController.createMovie
+  )
 
   app.delete(
     '/mba/api/v1/movies/:movieId',
@@ -12,6 +16,12 @@ const routes=(app)=>{
     '/mba/api/v1/movies/:id',
     movieController.getMovie
   )
+
+  app.put('/mba/api/v1/movies/:id',movieController.updateMovie)
+
+  app.patch('/mba/api/v1/movies/:id',movieController.updateMovie);
 };
+
+
 
 module.exports=routes;
