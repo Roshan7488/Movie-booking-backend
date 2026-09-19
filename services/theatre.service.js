@@ -13,7 +13,7 @@ const createTheatre = async (data) => {
       console.log(err);
       return { err: err, code: 422 };
     } else {
-      throw err;
+      throw error;
     }
   }
 };
@@ -34,7 +34,29 @@ const getTheatre = async (id) => {
   }
 };
 
+const getAllTheatre=async (filter)=>{
+  try{
+    let query={};
+    if(filter.name){
+      query.name=filter.name;
+    }
+    let response = await Theatre.find(query);
+    if(!response){
+      return {
+        err:"Not able to find the query Theatre",
+        code:404
+    }
+  }
+  return response;
+}
+catch(error){
+    console.log(error);
+    throw error;
+}
+}
+
 module.exports = {
   createTheatre,
-  getTheatre
+  getTheatre,
+  getAllTheatre
 };
