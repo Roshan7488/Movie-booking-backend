@@ -17,5 +17,5 @@ const theatreSchema= new mongoose.Schema({
   address:String
 },{timestamps:true});
 
-const Theatre=mongoose.model('Theatre',threatreSchema);
-module.exports=Threatre;
+const Theatre=mongoose.model('Theatre',theatreSchema);
+module.exports=Theatre;

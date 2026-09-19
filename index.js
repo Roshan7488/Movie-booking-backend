@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 //local module
 const MovieRoutes=require('./routes/movie.routes');
+const TheatreRoutes=require('./routes/theatre.routes')
 env.config();
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 MovieRoutes(app);
+TheatreRoutes(app);
 
 app.get('/', (req, res) => {
   return res.json({ message: 'Hello, World!' });
