@@ -37,16 +37,16 @@ const getTheatre = async (id) => {
 const getAllTheatre=async (filter)=>{
   try{
     let query={};
-    if(filter.name){
+    if(filter && filter.city){
+      query.city=filter.city;
+    }
+    if(filter && filter.pincode){
+      query.pincode=filter.pincode;
+    }
+    if(filter && filter.name){
       query.name=filter.name;
     }
-    let response = await Theatre.find(query);
-    if(!response){
-      return {
-        err:"Not able to find the query Theatre",
-        code:404
-    }
-  }
+    const response = await Theatre.find(query);
   return response;
 }
 catch(error){
