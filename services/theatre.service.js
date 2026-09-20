@@ -37,6 +37,7 @@ const getTheatre = async (id) => {
 const getAllTheatre=async (filter)=>{
   try{
     let query={};
+    let pagination={};
     if(filter && filter.city){
       query.city=filter.city;
     }
@@ -46,7 +47,15 @@ const getAllTheatre=async (filter)=>{
     if(filter && filter.name){
       query.name=filter.name;
     }
-    const response = await Theatre.find(query);
+    if(filter && filter.limit){
+      pagination.limit=filter.limit;
+    }
+    if(filter && filter.skip){
+      //for first page we send skip as 0
+      let perPage = (filter.limit) ? filter.limit : 3;
+      pagination.skip=filter.skip * perPage;
+   }
+    const response = await Theatre.find(query,{},pagination);//(which theatres,which fields to return,limit and skip)
   return response;
 }
 catch(error){
