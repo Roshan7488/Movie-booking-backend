@@ -1,3 +1,6 @@
+const { errorResponseBody } = require("../utils/responsebody");
+const { validateTheatreCreateRequest } = require("./theatre.middleware");
+
 const badRequestResponse = {
   success:false,
   err:"",
@@ -53,6 +56,8 @@ const validateMovieCreateRequest= async (req,res,next)=>{
 
 }
 
+
 module.exports ={
-  validateMovieCreateRequest
+  validateMovieCreateRequest,
+  
 }

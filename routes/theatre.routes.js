@@ -16,6 +16,7 @@ const routes=(app)=>{
   //DELETE
   app.delete('/mba/api/v1/theatres/:id',theatreController.destroy);
 
+  app.patch('/mba/api/v1/theatres/:id/movies',theatreMiddleware.validateUpdateMoviesRequest,theatreController.updateMovies);
 }
 
 module.exports=routes;
