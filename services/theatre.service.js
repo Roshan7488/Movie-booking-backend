@@ -88,7 +88,7 @@ const getAllTheatre=async (filter)=>{
     if(filter && filter.limit){
       pagination.limit=filter.limit;
     }
-    if(filter && filter.skip){
+    if(filter && filter.skip !== undefined){
       //for first page we send skip as 0
       let perPage = (filter.limit) ? filter.limit : 3;
       pagination.skip=filter.skip * perPage;
