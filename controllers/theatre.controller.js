@@ -106,7 +106,6 @@ module.exports={
   getTheatre,
   getTheatres,
   destroy,
-  destroy,
   update,
   updateMovies
 
