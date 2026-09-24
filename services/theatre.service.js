@@ -1,5 +1,5 @@
 const Theatre = require("../models/theatre.model");
-const { errorResponseBody } = require("../utils/responsebody");
+const Movie =require('../models/movie.model')
 
 /**
  *
@@ -87,6 +87,9 @@ const getAllTheatre = async (filter) => {
     }
     if (filter && filter.name) {
       query.name = filter.name;
+    }
+    if(filter && filter.movieId){
+      query.movies={$all:filter.movieId};// we can also write query.movies=filter.movieId>
     }
     if (filter && filter.limit) {
       pagination.limit = filter.limit;
