@@ -141,6 +141,7 @@ const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
   //       code:404
   //     }
   //  }
+  let theatre;
   if (insert) {
     //we need to add movies
     // movieIds.forEach(movieId =>{
@@ -149,9 +150,10 @@ const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
 
     //this alternate way to add movie
    // Model.updateOne(filter, update); this is basic structure
-    await Theatre.updateOne(
+    theatre=await Theatre.findByIdAndUpdate(
       { _id: theatreId },
       { $addToSet: { movies: { $each: movieIds } } },
+      {new:true}
     );
   } else {
     //we need to remove movies
@@ -162,12 +164,12 @@ const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
     //   );
     // });
     // theatre.movies = savedMovieIds;
-    await Theatre.updateOne(
+    theatre= await Theatre.updateOne(
       {_id: theatreId},
-    {$pull:{movies:{$in:movieIds}}}
+    {$pull:{movies:{$in:movieIds}}},
+    {new:true}
   );
   }
-  const theatre=await Theatre.findById(theatreId);
   return theatre.populate("movies");
 }catch(error){
   console.log("Error is",error);
