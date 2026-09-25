@@ -202,6 +202,22 @@ const getMoviesInTheatre = async (id)=>{
   }
 
 }
+
+const checkMovieInATheatre=async (theatreId,movieId)=>{
+  try{
+    let response=await Theatre.findById(theatreId);
+    if(!response){
+      return {
+        err:"No such theatre found for the given Id",
+        code:404
+      }
+    }
+    return response.movies.indexOf(movieId) !== -1;
+  }catch(error){
+    console.log(error);
+    throw error;
+  }
+}
 module.exports = {
   createTheatre,
   getTheatre,
@@ -209,5 +225,6 @@ module.exports = {
   deleteTheatre,
   updateTheatre,
   updateMoviesInTheatres,
-  getMoviesInTheatre
+  getMoviesInTheatre,
+  checkMovieInATheatre
 };
