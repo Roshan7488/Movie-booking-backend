@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const bcrypt=require('bcrypt');
 
 const userSchema=new mongoose.Schema({
   name:{
@@ -30,6 +31,15 @@ const userSchema=new mongoose.Schema({
     default:"APPROVED"
   }
 },{timestamps:true});
+
+userSchema.pre('save',async function (){
+  // a trigger to encrypt the plain password before saving the user
+  console.log(this);//'this'= to the current user document.
+  const hash=await bcrypt.hash(this.password,10);
+  console.log(hash);
+  this.password=hash;
+  
+});
 
 const User=mongoose.model('User',userSchema);
 module.exports =User;
