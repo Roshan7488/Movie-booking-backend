@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const MovieRoutes=require('./routes/movie.routes');
 const TheatreRoutes=require('./routes/theatre.routes');
 const authRouters =require('./routes/auth.routes');
+const userRouters =require('./routes/user.routes')
 env.config();
 const app = express();
 
@@ -18,10 +19,8 @@ mongoose.set('debug',true);
 MovieRoutes(app);
 TheatreRoutes(app);
 authRouters(app);
+userRouters(app);
 
-app.get('/', (req, res) => {
-  return res.json({ message: 'Hello, World!' });
-});
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
   mongoose.connect(process.env.DB_URL).then(()=>{console.log("Successfully connected to mongoose");
