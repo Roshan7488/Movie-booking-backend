@@ -30,9 +30,9 @@ const updateTheatre = async (id, data) => {
       runValidators: true,
     });
     if (!response) {
-      return {
+      throw {
         err: "No theatre found for the given id",
-        code: 404,
+        code: STATUS.NOT_FOUND,
       };
     }
     return response;
@@ -42,7 +42,7 @@ const updateTheatre = async (id, data) => {
       Object.keys(error.errors).forEach((key) => {
         err[key] = error.errors[key].message;
       });
-      return { err: err, code: 422 };
+      throw { err: err, code: STATUS.UNPROCESSABLE_ENTITY };
     }
     throw error;
   }
