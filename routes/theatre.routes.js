@@ -1,5 +1,6 @@
 const theatreController=require('../controllers/theatre.controller');
 const theatreMiddleware=require('../middlewares/theatre.middleware');
+const authMiddleware=require('../middlewares/auth.middlewares');
 
 const routes=(app)=>{
   //routes function takes express app object as parameter
@@ -14,7 +15,7 @@ const routes=(app)=>{
   app.get('/mba/api/v1/theatres',theatreController.getTheatres);
 
   //DELETE
-  app.delete('/mba/api/v1/theatres/:id',theatreController.destroy);
+  app.delete('/mba/api/v1/theatres/:id',authMiddleware.isAuthenticated,theatreController.destroy);
 
   app.patch('/mba/api/v1/theatres/:id/movies',theatreMiddleware.validateUpdateMoviesRequest,theatreController.updateMovies);
 
