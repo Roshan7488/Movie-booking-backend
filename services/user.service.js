@@ -1,12 +1,12 @@
 const User =require('../models/user.model');
-const {USER_ROLE,USER_STATUS}=require('../utils/constants');
+const {USER_ROLE,USER_STATUS,STATUS}=require('../utils/constants');
 
 const createUser = async (data)=>{
   try{
     if(!data.userRole || data.userRole === USER_ROLE.customer){
       if(data.userStatus && data.userStatus !== USER_STATUS.approved){
         throw {err:"We cannot set any other status for customer",
-          code:400
+          code:STATUS.BAD_REQUEST
         };
       }
     }
@@ -32,7 +32,7 @@ const getUserByemail=async (email)=>{
   try{
     const response=await User.findOne({email:email});
     if(!response){
-      throw {err:"No user found for the given email", code:404};
+      throw {err:"No user found for the given email", code:STATUS.NOT_FOUND};
     }
     return response;
   }catch(error){
@@ -45,7 +45,7 @@ const getUserById = async (id)=>{
   try{
     const user= await User.findById(id);
     if(!user){
-      throw {err:"No user found for the given id", code:404};
+      throw {err:"No user found for the given id", code:STATUS.NOT_FOUND};
     }
     return user;
   }catch(error){
@@ -65,7 +65,7 @@ const updateUserRoleOrStatus= async (data,userId)=>{
     },updateQuery,{
       new:true,runValidators:true});
 
-    if(!response) throw {err:'No user Found for the given id',code:404};
+    if(!response) throw {err:'No user Found for the given id',code:STATUS.NOT_FOUND};
     return response;
   }catch(error){
     console.log(error);
@@ -74,7 +74,7 @@ const updateUserRoleOrStatus= async (data,userId)=>{
     Object.keys(error.errors).forEach(key =>{
       err[key]=error.errors[key].message
     });
-      throw {err:err, code:400}
+      throw {err:err, code:STATUS.BAD_REQUEST};
     }
     throw error;
   }
