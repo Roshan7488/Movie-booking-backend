@@ -1,4 +1,5 @@
 const Movie=require('../models/movie.model');
+const { STATUS }=require('../utils/constants');
 
 /**
  * 
@@ -17,7 +18,7 @@ const createMovie=async (data)=>{
         err[key]=error.errors[key].message;
       });
       console.log(err);
-      return {err:err,code:422}
+      throw {err:err,code:STATUS.UNPROCESSABLE_ENTITY}
     }else{
     throw err;
     } 
