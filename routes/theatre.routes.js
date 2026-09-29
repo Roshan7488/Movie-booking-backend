@@ -6,7 +6,7 @@ const routes=(app)=>{
   //routes function takes express app object as parameter
 
   //CREATE
-  app.post('/mba/api/v1/theatres',theatreMiddleware.validateTheatreCreateRequest,theatreController.create);
+  app.post('/mba/api/v1/theatres',authMiddleware.isAuthenticated,authMiddleware.isAdminOrClient,theatreMiddleware.validateTheatreCreateRequest,theatreController.create);
 
   //READ
   app.get('/mba/api/v1/theatres/:id',theatreController.getTheatre);

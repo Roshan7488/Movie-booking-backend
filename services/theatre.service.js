@@ -1,5 +1,5 @@
 const Theatre = require("../models/theatre.model");
-
+const { STATUS }=require('../utils/constants');
 /**
  *
  * @params data -> object containing details of the theatre to be created
@@ -16,7 +16,7 @@ const createTheatre = async (data) => {
         err[key] = error.errors[key].message;
       });
       console.log(err);
-      return { err: err, code: 422 };
+      throw { err: err, code: STATUS.UNPROCESSABLE_ENTITY};
     } else {
       throw error;
     }
