@@ -1,5 +1,5 @@
 const Theatre = require("../models/theatre.model");
-
+const { STATUS }=require('../utils/constants');
 /**
  *
  * @params data -> object containing details of the theatre to be created
@@ -16,7 +16,7 @@ const createTheatre = async (data) => {
         err[key] = error.errors[key].message;
       });
       console.log(err);
-      return { err: err, code: 422 };
+      throw { err: err, code: STATUS.UNPROCESSABLE_ENTITY};
     } else {
       throw error;
     }
@@ -30,9 +30,9 @@ const updateTheatre = async (id, data) => {
       runValidators: true,
     });
     if (!response) {
-      return {
+      throw {
         err: "No theatre found for the given id",
-        code: 404,
+        code: STATUS.NOT_FOUND,
       };
     }
     return response;
@@ -42,7 +42,7 @@ const updateTheatre = async (id, data) => {
       Object.keys(error.errors).forEach((key) => {
         err[key] = error.errors[key].message;
       });
-      return { err: err, code: 422 };
+      throw { err: err, code: STATUS.UNPROCESSABLE_ENTITY };
     }
     throw error;
   }
@@ -57,9 +57,9 @@ const getTheatre = async (id) => {
   try {
     const response = await Theatre.findById(id);
     if (!response) {
-      return {
+      throw {
         err: "No theatre found for the given id",
-        code: 404,
+        code: STATUS.NOT_FOUND,
       };
     }
     return response;
@@ -115,9 +115,9 @@ const deleteTheatre = async (id) => {
   try {
     const response = await Theatre.findByIdAndDelete(id);
     if (!response) {
-      return {
+      throw {
         err: "No record of a theatre found for the given id",
-        code: 404,
+        code: STATUS.NOT_FOUND,
       };
     }
     return response;
@@ -174,11 +174,10 @@ const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
   }
   return theatre.populate("movies");
 }catch(error){
-  console.log("Error is",error);
   if(error.name==='TypeError'){
-    return {
+    throw {
       err:'No theatre found for the given ID',
-      code:404
+      code:STATUS.NOT_FOUND
     }
   }
   throw error;
@@ -189,9 +188,9 @@ const getMoviesInTheatre = async (id)=>{
   try{
   const theatre=await Theatre.findById(id,{name:1,movies:1,address:1});
   if(!theatre){
-    return {
+     throw {
       err:'No theatre with the given id found',
-      code:404
+      code:STATUS.NOT_FOUND
     }
   }
   return theatre.populate('movies')
@@ -206,9 +205,9 @@ const checkMovieInATheatre=async (theatreId,movieId)=>{
   try{
     let response=await Theatre.findById(theatreId);
     if(!response){
-      return {
+      throw {
         err:"No such theatre found for the given Id",
-        code:404
+        code:STATUS.NOT_FOUND
       }
     }
     return response.movies.indexOf(movieId) !== -1;
