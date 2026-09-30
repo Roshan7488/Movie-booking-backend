@@ -35,9 +35,9 @@ const createMovie=async (data)=>{
 const deleteMovie =async (id)=>{
   const response=await Movie.findByIdAndDelete(id);
   if(!response){
-    return {
+    throw {
       err:"No movie record found for the id provided",
-    code:404
+    code:STATUS.NOT_FOUND
   }
 }
   return response;
@@ -53,7 +53,7 @@ const getMovieById=async (id)=>{
   if(!movie){
     return {
       err:"No movie found for the corresponding id provided",
-      code:404
+      code:STATUS.NOT_FOUND
     }
   };
   return movie;
@@ -77,7 +77,7 @@ const updateMovie = async (id,data)=>{
         err[key]=error.errors[key].message;
       });
       console.log(err);
-      return {err:err,code:422}
+      return {err:err,code:STATUS.UNPROCESSABLE_ENTITY}
     }else{
     throw err;
     } 
