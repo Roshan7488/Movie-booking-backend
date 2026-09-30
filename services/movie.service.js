@@ -77,7 +77,7 @@ const updateMovie = async (id,data)=>{
         err[key]=error.errors[key].message;
       });
       console.log(err);
-      return {err:err,code:STATUS.UNPROCESSABLE_ENTITY}
+      throw {err:err,code:STATUS.UNPROCESSABLE_ENTITY}
     }else{
     throw err;
     } 

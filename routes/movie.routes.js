@@ -25,10 +25,10 @@ const routes=(app)=>{
   )
 
   //UPDATE
-  app.put('/mba/api/v1/movies/:id',movieController.updateMovie)
+  app.put('/mba/api/v1/movies/:id',authMiddlewares.isAuthenticated,authMiddlewares.isAdminOrClient,movieController.updateMovie)
 
   //UPDATE
-  app.patch('/mba/api/v1/movies/:id',movieController.updateMovie);
+  app.patch('/mba/api/v1/movies/:id',authMiddlewares.isAuthenticated,authMiddlewares.isAdminOrClient,movieController.updateMovie);
 
   //READ
   app.get('/mba/api/v1/movies',movieController.getMovies);
