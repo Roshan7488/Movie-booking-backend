@@ -8,7 +8,8 @@ const MovieRoutes=require('./routes/movie.routes');
 const TheatreRoutes=require('./routes/theatre.routes');
 const authRouters =require('./routes/auth.routes');
 const userRouters =require('./routes/user.routes');
-const bookingRouters=require('./routes/booking.routes');
+const bookingRoutes=require('./routes/booking.routes');
+const showRoutes=require('./routes/show.routes');
 env.config();
 const app = express();
 
@@ -21,7 +22,8 @@ MovieRoutes(app);
 TheatreRoutes(app);
 authRouters(app);
 userRouters(app);
-bookingRouters(app);
+bookingRoutes(app);
+showRoutes(app);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
