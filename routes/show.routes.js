@@ -4,6 +4,8 @@ const showMiddlewares=require('../middlewares/show.middlewares');
 
 const routes=(app)=>{
   app.post('/mba/api/v1/show',authMiddlewares.isAuthenticated,authMiddlewares.isAdminOrClient,showMiddlewares.validateCreateShowRequest,showController.create);
+
+  app.get('/mba/api/v1/shows',showController.getShows);
 }
 
 module.exports=routes;
