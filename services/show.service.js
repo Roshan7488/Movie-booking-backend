@@ -1,6 +1,7 @@
 const Show=require('../models/show.model');
 const Theatre=require('../models/theatre.model');
 const {STATUS}=require('../utils/constants');
+const { errorResponseBody } = require('../utils/responsebody');
 const createShow=async (data)=>{
   try{
     const theatre=await Theatre.findById(data.theatreId);
@@ -52,7 +53,40 @@ const getShows =async (data)=>{
   }
 }
 
+const deleteShow = async (id)=>{
+  try{
+    const response=await Show.findByIdAndDelete(id);
+    if(!response){
+      throw {err:'No show found',code:STATUS.NOT_FOUND}
+    }
+    return response;
+  }catch(error){
+    throw error;
+  }
+}
+
+const updateShow=async (id,data)=>{
+  try{
+    const response= await Show.findByIdAndUpdate(id,data,{new:true,runValidators:true});
+    if(!response){
+      throw {err:'No show found for the given id',code:STATUS.NOT_FOUND}
+    }
+    return response;
+  }catch(error){
+    if(error.name==='ValidationError'){
+      let err={};
+      Object.keys(error.errors).forEach(key=>{
+        err[key]=error.errors[key].message;
+      })
+      throw {err:err,code:STATUS.UNPROCESSABLE_ENTITY}
+    }
+    throw error;
+  }
+}
+
 module.exports={
   createShow,
-  getShows
+  getShows,
+  deleteShow,
+  updateShow
 }

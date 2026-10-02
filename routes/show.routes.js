@@ -6,6 +6,10 @@ const routes=(app)=>{
   app.post('/mba/api/v1/show',authMiddlewares.isAuthenticated,authMiddlewares.isAdminOrClient,showMiddlewares.validateCreateShowRequest,showController.create);
 
   app.get('/mba/api/v1/shows',showController.getShows);
+
+  app.delete('/mba/api/v1/shows/:id',authMiddlewares.isAuthenticated,authMiddlewares.isAdminOrClient,showController.destroy);
+
+  app.patch('/mba/api/v1/shows/:id',authMiddlewares.isAuthenticated,authMiddlewares.isAdminOrClient,showMiddlewares.validateShowUpdateRequest,showController.update);
 }
 
 module.exports=routes;
