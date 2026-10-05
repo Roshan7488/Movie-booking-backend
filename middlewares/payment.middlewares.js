@@ -7,6 +7,10 @@ const verifyPaymentCreateRequest = async(req,res,next)=>{
     errorResponseBody.err='NO booking id received id';
     return res.status(STATUS.BAD_REQUEST).json(errorResponseBody);
   }
+  if(!ObjectId.isValid(req.body.bookingId)){
+    errorResponseBody.err='Invalid booking id';
+    return res.status(STATUS.BAD_REQUEST).json(errorResponseBody);
+  }
   if(!req.body.amount){
     errorResponseBody.err='No amount sent';
     return res.status(STATUS.BAD_REQUEST).json(errorResponseBody);

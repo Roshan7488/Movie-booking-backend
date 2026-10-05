@@ -1,13 +1,14 @@
 const Payment = require('../models/payment.model');
 const Booking =require('../models/booking.model');
-const { STATUS, BOOKING_STATUS, PAYMENT_STATUS }=require('../utils/constants');
+const { STATUS, BOOKING_STATUS, PAYMENT_STATUS, USER_ROLE }=require('../utils/constants');
+const User = require('../models/user.model');
 
 const createPayment = async (data)=>{
   try{
     const booking=await Booking.findById(data.bookingId);
     if(booking.status===BOOKING_STATUS.successfull){
       throw {
-        err:'Booking already done,cannot make a new payment against it',
+        err:'Booking already done, cannot make a new payment against it',
         code:STATUS.FORBIDDEN
       }
     }
@@ -64,7 +65,23 @@ const getPaymentById=async (id)=>{
     throw error;
   }
 }
+
+const getAllPayments = async (userId)=>{
+  try{
+   const user=await User.findById(userId);
+   let filter={};
+   if(user.userRole!=USER_ROLE.admin){
+    filter.userId=user._id;
+   }
+   const bookings = await Booking.find(filter,'id');//'id' used here to get booking id only
+   const payments= await Payment.find({bookingId:{$in:bookings}});
+   return payments;
+  }catch(error){
+    throw error;
+  }
+}
 module.exports={
   createPayment,
-  getPaymentById
+  getPaymentById,
+  getAllPayments
 }
