@@ -5,6 +5,12 @@ const { STATUS, BOOKING_STATUS, PAYMENT_STATUS }=require('../utils/constants');
 const createPayment = async (data)=>{
   try{
     const booking=await Booking.findById(data.bookingId);
+    if(booking.status===BOOKING_STATUS.successfull){
+      throw {
+        err:'Booking already done,cannot make a new payment against it',
+        code:STATUS.FORBIDDEN
+      }
+    }
     if(!booking){
       throw{
         err:'No booking found',
@@ -15,7 +21,7 @@ const createPayment = async (data)=>{
     let currentTime= Date.now();
 
     let minutes=Math.floor(((currentTime-bookingTime)/1000)/60);
-    if(minutes>60){
+    if(minutes>20){
       booking.status=BOOKING_STATUS.expired;
       await booking.save();
       return booking;
@@ -43,6 +49,22 @@ const createPayment = async (data)=>{
     throw error;
   }
 }
+
+const getPaymentById=async (id)=>{
+  try{
+    const response=await Payment.findById(id).populate('bookingId');
+    if(!response){
+      throw {
+        err:'No payment record found',
+        code:STATUS.NOT_FOUND
+      }
+    }
+    return response;
+  }catch(error){
+    throw error;
+  }
+}
 module.exports={
-  createPayment
+  createPayment,
+  getPaymentById
 }

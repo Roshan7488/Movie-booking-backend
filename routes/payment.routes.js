@@ -5,6 +5,6 @@ const paymentMiddlewares=require('../middlewares/payment.middlewares');
 const routes = (app)=>{
   app.post('/mba/api/v1/payments',authMiddlewares.isAuthenticated,paymentMiddlewares.verifyPaymentCreateRequest,paymentController.create);
 
- // app.get('/mba/api/v1/payments/:id')
+  app.get('/mba/api/v1/payments/:id',authMiddlewares.isAuthenticated,paymentController.getPaymentDetailsById);
 }
 module.exports=routes;
