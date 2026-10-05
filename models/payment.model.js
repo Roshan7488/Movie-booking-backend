@@ -9,13 +9,16 @@ const paymentSchema=new mongoose.Schema({
   amount:{
     type:Number,
     require:true,
+  },
+  status:{
+    type:String,
+    required:true,
     enum:{
       values:[PAYMENT_STATUS.success,PAYMENT_STATUS.failed,PAYMENT_STATUS.pending],
       message:"Invalid payment status"
     },
-    default:"PENDING"
+    default:PAYMENT_STATUS.pending
   }
 },{timestamps:true});
-const payment =mongoose.model('Payment',paymentSchema);
-
-exports.module=payment
+const Payment =mongoose.model('Payment',paymentSchema);
+module.exports=Payment;

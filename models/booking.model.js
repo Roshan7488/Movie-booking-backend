@@ -4,35 +4,36 @@ const {BOOKING_STATUS}=require('../utils/constants');
 const bookingSchema = new mongoose.Schema({
   theatreId:{
     type:mongoose.Schema.Types.ObjectId,
-    require:true,
+    required:true,
     ref:'Theatre'
   },
   movieId:{
     type:mongoose.Schema.Types.ObjectId,
-    require:true,
+    required:true,
     ref:'Movie'
   },
   userId:{
     type:mongoose.Schema.Types.ObjectId,
-    require:true,
+    required:true,
     ref:'User'
   },
   timings:{
     type:String,
-    require:true
+    required:true
   },
   noOfSeats:{
     type:Number,
-    require:true
+    required:true
   },
   totalCost:{
-    type:Number
+    type:Number,
+    required:true
   },
   status:{
     type:String,
-    require:true,
+    required:true,
     enum:{
-      values:[BOOKING_STATUS.processing,BOOKING_STATUS.cancelled,BOOKING_STATUS.successfull],
+      values:[BOOKING_STATUS.processing,BOOKING_STATUS.cancelled,BOOKING_STATUS.successfull,BOOKING_STATUS.expired],
       message:"Invalid booking status"
     },
     default:BOOKING_STATUS.processing
