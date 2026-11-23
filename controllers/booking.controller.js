@@ -14,7 +14,7 @@ const create=async (req,res)=>{
       errorResponseBody.err=error.err;
       return res.status(error.code).json(errorResponseBody);
     }
-      errorResponseBody.err=errorResponseBody;
+      errorResponseBody.err=error;
       return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
 }

@@ -4,7 +4,7 @@ const ObjectId=require('mongoose').Types.ObjectId;
 
 const verifyPaymentCreateRequest = async(req,res,next)=>{
   if(!req.body.bookingId){
-    errorResponseBody.err='NO booking id received id';
+    errorResponseBody.err='NO booking id received';
     return res.status(STATUS.BAD_REQUEST).json(errorResponseBody);
   }
   if(!ObjectId.isValid(req.body.bookingId)){
