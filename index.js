@@ -7,7 +7,10 @@ const mongoose = require('mongoose');
 const MovieRoutes=require('./routes/movie.routes');
 const TheatreRoutes=require('./routes/theatre.routes');
 const authRouters =require('./routes/auth.routes');
-const userRouters =require('./routes/user.routes')
+const userRouters =require('./routes/user.routes');
+const bookingRoutes=require('./routes/booking.routes');
+const showRoutes=require('./routes/show.routes');
+const paymentRoutes=require('./routes/payment.routes');
 env.config();
 const app = express();
 
@@ -20,6 +23,9 @@ MovieRoutes(app);
 TheatreRoutes(app);
 authRouters(app);
 userRouters(app);
+bookingRoutes(app);
+showRoutes(app);
+paymentRoutes(app);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);

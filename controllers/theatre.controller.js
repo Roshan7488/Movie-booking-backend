@@ -41,6 +41,10 @@ const getTheatres =async(req,res)=>{
     successResponseBody.message="Successfully fetched all the theatres";
     return res.status(STATUS.OK).json(successResponseBody);
   }catch(error){
+     if (error.err) {
+    errorResponseBody.err = error.err;
+    return res.status(error.code).json(errorResponseBody);
+  }
     errorResponseBody.err=error;
     return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
   }
@@ -69,7 +73,7 @@ const destroy = async(req,res)=>{
     const response = await theatreService.deleteTheatre(req.params.id);
     successResponseBody.data=response;
     successResponseBody.message="Successfully deleted the given theatre";
-    return res.status(STATUS.CREATED).json(successResponseBody);
+    return res.status(STATUS.OK).json(successResponseBody);
   }catch(error){
     if(error.err){
       errorResponseBody.err=error.err;
@@ -119,9 +123,9 @@ const checkMovie = async (req,res)=>{
     successResponseBody.message="Successfully checked if movie is present in the theatre";
     return res.status(STATUS.OK).json(successResponseBody);
   }catch(error){
-     if(response.err){
-    errorResponseBody.err=response.err;
-    return res.status(response.code).json(errorResponseBody);
+     if(error.err){
+    errorResponseBody.err=error.err;
+    return res.status(error.code).json(errorResponseBody);
   }
     errorResponseBody.err=error;
     return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
